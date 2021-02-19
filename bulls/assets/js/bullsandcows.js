@@ -2,11 +2,6 @@ import React, { useState } from 'react';
 //import 'milligram';
 
 function BullsAndCows() {
-	const [guess, setGuess] = useState("");
-	const [guesses, setGuesses] = useState([]);
-	const [evals, setEvals] = useState([]);
-	const [message, setMessage] = useState("");
-	const [currGuess, setCurrGuess] = useState(0);
 
 	function genNum() {
 		let nums = [];
@@ -21,7 +16,16 @@ function BullsAndCows() {
 		return nums;
 	}
 
-	const [secretCode, setSecretCode] = useState(genNum);
+	const [state, setState] = useState({
+		guess: "",
+		guesses: [],
+		evals: [],
+		message: "",
+		currGuess: 0,
+		secretCode: genNum(),
+	});
+
+	let {guess, guesses, evals, message, currGuess, secretCode} = state;
 
 	function updateGuess(ev) {
 		setGuess(ev.target.value);
