@@ -3,7 +3,6 @@ defmodule Bulls.Game do
     %{
       guesses: [],
       evals: [],
-      message: "",
       currGuess: 0,
       secretCode: random_code(),
     }
@@ -16,6 +15,7 @@ defmodule Bulls.Game do
     %{ st |
       guesses: List.insert_at(guesses, Enum.count(guesses), num),
       evals: List.insert_at(evals, Enum.count(evals), eval),
+      currGuess: st.currGuess + 1,
      }
   end
 
@@ -60,7 +60,6 @@ defmodule Bulls.Game do
     %{
       guesses: st.guesses,
       evals: st.evals,
-      message: st.message,
       currGuess: st.currGuess,
     }
   end

@@ -19,14 +19,14 @@ function BullsAndCows() {
 	}
 */
 	const [guess, setGuess] = useState("");
+	const [message, setMessage] = useState("");
 	const [state, setState] = useState({
 		guesses: [],
 		evals: [],
-		message: "",
 		currGuess: 0,
 	});
 
-	let {guesses, evals, message, currGuess} = state;
+	let {guesses, evals, currGuess} = state;
 
 	function updateGuess(ev) {
 		setGuess(ev.target.value);
@@ -73,24 +73,24 @@ function BullsAndCows() {
 	}
 
 	function makeGuess() {
-		//if (isValidGuess()) {
+		if (isValidGuess()) {
+			ch_push({num: guess});
 		//	let newGuesses = guesses;
 		//	newGuesses.push(guess);
 		//	setGuesses(newGuesses);
 		//	setEvals(evals.concat(evaluateGuess()));
-		//	setMessage("");
+			setMessage("");
 		//	setCurrGuess(currGuess + 1);
-		//} else {
-		//	setMessage(guess + " is an invalid guess. Try again");
-		//}
-		ch_push({num: guess});
+		} else {
+			setMessage(guess + " is an invalid guess. Try again");
+		}
 		setGuess("");
 	}
 
 	//source for keypress - class notes on making hangman game
 	//github.com/NatTuck/scratch-2021-01/blob/master/notes-4550/04-react-intro/notes.md
 	function keypress(ev) {
-		if (ev.key == "Enter"){
+		if (ev.key == "Enter" && state.currGuess < 8){
 			makeGuess();
 		}
 	}
@@ -110,7 +110,7 @@ function BullsAndCows() {
 		ch_reset();
 	//	setGuesses([]);
 	//	setEvals([]);
-	//	setMessage("");
+		setMessage("");
 		setGuess("");
 	//	setSecretCode(genNum);
 	//	setCurrGuess(0);
@@ -132,26 +132,14 @@ function BullsAndCows() {
 		return " ";
 	}
 
-	//if (gameWon()) {
-	//	return (
-	//		<div className="App">
-	//			<h1>You won! The secret code was {secretCode}</h1>
-	//			<p>
-	//				<button onClick={newGame}>New Game</button>
-	//			</p>
-	//		</div>
-	//	);
-	//}
+	let body = null
 
-	if (gameLost()) {
-		return (
-			<div className="App">
-				<h1>You ran out of guesses! The secret code was {secretCode}</h1>
-				<p>
-					<button onClick={newGame}>New Game</button>
-				</p>
-			</div>
-		);
+	if (gameWon()) {
+		body = <h3>You won!</h3>;
+	} else if (gameLost()) {
+		body = <h3>You lost!</h3>;
+	} else {
+		body = <p><button onClick={makeGuess}>Guess</button></p>;
 	}
 
 	return (
@@ -235,7 +223,7 @@ function BullsAndCows() {
 					<p><input type="text" value={guess} onChange={updateGuess} onKeyPress={keypress} /></p>
 				</div>
 				<div className="column">
-					<p><button onClick={makeGuess}>Guess</button></p>
+					{body}
 				</div>
 			</div>
 			<p>{message}</p>
