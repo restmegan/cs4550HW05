@@ -10,7 +10,7 @@ export SECRET_KEY_BASE=insecure
 mix deps.get --only prod
 mix compile
 
-CFGD=$(readlink -f ~/.config/hangman)
+CFGD=$(readlink -f ~/.config/bulls)
 
 if [ ! -d "$CFGD" ]; then
     mkdir -p $CFGD
