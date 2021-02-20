@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 //import 'milligram';
 
-function BullsAndCows() {
+import { ch_join, ch_push, ch_reset } from './socket';
 
+function BullsAndCows() {
+/*
 	function genNum() {
 		let nums = [];
 		while (nums.length < 4) {
@@ -15,21 +17,25 @@ function BullsAndCows() {
 		}
 		return nums;
 	}
-
+*/
+	const [guess, setGuess] = useState("");
 	const [state, setState] = useState({
-		guess: "",
 		guesses: [],
 		evals: [],
 		message: "",
 		currGuess: 0,
-		secretCode: genNum(),
+		secretCode: [],
 	});
 
-	let {guess, guesses, evals, message, currGuess, secretCode} = state;
+	let {guesses, evals, message, currGuess, secretCode} = state;
 
 	function updateGuess(ev) {
 		setGuess(ev.target.value);
 	}
+
+	useEffect(() => {
+		ch_join(setState);
+	});
 
 	function isValidGuess() {
 		let guessArr = guess.split("");
@@ -55,11 +61,11 @@ function BullsAndCows() {
 		let exactCount = 0;
 		let presentCount = 0;
 		for (var k = 0; k < guessSplit.length; k++) {
-			if (guessSplit[k] == secretCode[k]) {
+			if (guessSplit[k] == state.secretCode[k]) {
 				exactCount++;
 			}
 			for (var m = 0; m < guessSplit.length; m++) {
-				if (guessSplit[k] == secretCode[m] && m !== k) {
+				if (guessSplit[k] == state.secretCode[m] && m !== k) {
 					presentCount++;
 				}
 			}
@@ -68,16 +74,17 @@ function BullsAndCows() {
 	}
 
 	function makeGuess() {
-		if (isValidGuess()) {
-			let newGuesses = guesses;
-			newGuesses.push(guess);
-			setGuesses(newGuesses);
-			setEvals(evals.concat(evaluateGuess()));
-			setMessage("");
-			setCurrGuess(currGuess + 1);
-		} else {
-			setMessage(guess + " is an invalid guess. Try again");
-		}
+		//if (isValidGuess()) {
+		//	let newGuesses = guesses;
+		//	newGuesses.push(guess);
+		//	setGuesses(newGuesses);
+		//	setEvals(evals.concat(evaluateGuess()));
+		//	setMessage("");
+		//	setCurrGuess(currGuess + 1);
+		//} else {
+		//	setMessage(guess + " is an invalid guess. Try again");
+		//}
+		ch_push({num: guess});
 		setGuess("");
 	}
 
@@ -90,49 +97,56 @@ function BullsAndCows() {
 	}
 
 	function gameWon() {
-		if (currGuess === 0) {
+		if (state.currGuess === 0) {
 			return false;
 		}
-		return evals[currGuess - 1].indexOf("4A") === 0;
+		return state.evals[currGuess - 1].indexOf("4A") === 0;
 	}
 
 	function gameLost() {
-		return guesses.length >= 8;
+		return state.guesses.length >= 8;
 	}
 
 	function newGame() {
-		setGuesses([]);
-		setEvals([]);
-		setMessage("");
+		ch_reset();
+	//	setGuesses([]);
+	//	setEvals([]);
+	//	setMessage("");
 		setGuess("");
-		setSecretCode(genNum);
-		setCurrGuess(0);
+	//	setSecretCode(genNum);
+	//	setCurrGuess(0);
 	}
 
 	function getGuess(index) {
-		if (index >= guesses.length) {
+		/*
+		if (index >= state.guesses.length) {
 			return " ";
 		}
-		return guesses[index];
+		return state.guesses[index];
+		*/
+		return " ";
 	}
 
 	function getEval(index) {
-		if (index >= evals.length) {
+		/*
+		if (index >= state.evals.length) {
 			return " ";
 		}
-		return evals[index];
+		return state.evals[index];
+		*/
+		return " ";
 	}
 
-	if (gameWon()) {
-		return (
-			<div className="App">
-				<h1>You won! The secret code was {secretCode}</h1>
-				<p>
-					<button onClick={newGame}>New Game</button>
-				</p>
-			</div>
-		);
-	}
+	//if (gameWon()) {
+	//	return (
+	//		<div className="App">
+	//			<h1>You won! The secret code was {secretCode}</h1>
+	//			<p>
+	//				<button onClick={newGame}>New Game</button>
+	//			</p>
+	//		</div>
+	//	);
+	//}
 
 	if (gameLost()) {
 		return (
