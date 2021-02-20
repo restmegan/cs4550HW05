@@ -21,7 +21,7 @@ defmodule BullsWeb.GameChannel do
   def handle_in("guess", %{"num" => ll}, socket) do
     game0 = socket.assigns[:game]
     game1 = Game.guess(game0, ll)
-    socket1 = assign(socket, :game, game1)
+    socket = assign(socket, :game, game1)
     view = Game.view(game1)
     {:reply, {:ok, view}, socket}
   end

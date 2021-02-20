@@ -13,11 +13,9 @@ defmodule Bulls.Game do
     eval = evalGuess(st, num)
     guesses = st.guesses
     evals = st.evals
-    %{
+    %{ st |
       guesses: List.insert_at(guesses, Enum.count(guesses), num),
       evals: List.insert_at(evals, Enum.count(evals), eval),
-      message: st.message,
-      currGuess: st.currGuess,
      }
   end
 
@@ -59,7 +57,12 @@ defmodule Bulls.Game do
   end
 
   def view(st) do
-    st
+    %{
+      guesses: st.guesses,
+      evals: st.evals,
+      message: st.message,
+      currGuess: st.currGuess,
+    }
   end
 
   # temporary, will do the generator later

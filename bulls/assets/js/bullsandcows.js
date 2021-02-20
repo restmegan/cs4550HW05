@@ -24,10 +24,9 @@ function BullsAndCows() {
 		evals: [],
 		message: "",
 		currGuess: 0,
-		secretCode: [],
 	});
 
-	let {guesses, evals, message, currGuess, secretCode} = state;
+	let {guesses, evals, message, currGuess} = state;
 
 	function updateGuess(ev) {
 		setGuess(ev.target.value);
@@ -118,22 +117,18 @@ function BullsAndCows() {
 	}
 
 	function getGuess(index) {
-		/*
 		if (index >= state.guesses.length) {
 			return " ";
 		}
 		return state.guesses[index];
-		*/
 		return " ";
 	}
 
 	function getEval(index) {
-		/*
 		if (index >= state.evals.length) {
 			return " ";
 		}
 		return state.evals[index];
-		*/
 		return " ";
 	}
 
