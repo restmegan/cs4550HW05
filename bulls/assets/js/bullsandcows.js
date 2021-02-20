@@ -35,7 +35,7 @@ function BullsAndCows() {
 
 	useEffect(() => {
 		ch_join(setState);
-	});
+	}, []);
 
 	function isValidGuess() {
 		let guessArr = guess.split("");
