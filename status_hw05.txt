@@ -1,0 +1,27 @@
+Please fill in answers to the questions below:
+
+
+1. What's your name?
+Megan Rest
+
+2. What hostname did you deploy to?
+hw05.megrest.com except deploy isn't working and i can't figure out why
+
+3. Which parts of this assignment did you have trouble with, if any?
+there was a socket issue that held me up for several hours and deploy isn't working and i'm not sure why
+
+4. What part of your application state is on the server?
+the secret code, guessing, doing the evaluation of each guess
+
+5. What part of your application state, if any, is in the browser?
+updating the text field for inputing a guess, checking guess validity, checking for game end
+
+And here's a list of tasks for grading comments. Just leave this here:
+ - Task 1
+ - Task 2
+ - Task 3
+ - Task 4
+ - Task 5
+ - Task 6
+ - Task 7
+ - Task 8
